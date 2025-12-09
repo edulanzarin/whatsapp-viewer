@@ -505,34 +505,39 @@ body {
 }
 
 .msg-content {
+    display: inline;
     white-space: pre-wrap;
 }
 
 .msg-meta {
     float: right;
-    font-size: 10px;
-    margin-top: 4px;
     margin-left: 8px;
+    margin-top: 6px;
+    font-size: 11px;
     color: var(--text-meta);
     display: flex;
     align-items: center;
-    gap: 2px;
+    gap: 3px;
+    line-height: 1;
+    position: relative;
+    top: 2px;
 }
 
 /* Midias (Com suporte a click) */
 .media-container {
+    display: block;
     position: relative;
-    display: inline-block;
+    margin-bottom: 4px;
 }
 
 .media-container img,
 .media-container video {
-    max-width: 100%;
-    max-height: 300px;
-    border-radius: 6px;
     display: block;
-    margin-bottom: 5px;
+    max-width: 100%;
+    max-height: 350px;
+    border-radius: 6px;
     cursor: zoom-in;
+    margin: 0;
 }
 
 .audio-player {
