@@ -541,9 +541,11 @@ body {
 }
 
 .audio-player {
-    width: 250px;
+    display: block;
+    width: 260px;
     max-width: 100%;
-    margin: 5px 0;
+    margin-top: 5px;
+    margin-bottom: 2px;
 }
 
 .view-once-card {
