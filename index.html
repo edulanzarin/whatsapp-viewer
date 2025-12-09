@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>WhatsApp Viewer</title>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div id="loadingOverlay" class="loading-overlay hidden">
+        <div class="spinner"></div>
+        <p>Processando conversa...</p>
+    </div>
+
+    <div id="mediaLightbox" class="lightbox-overlay hidden" onclick="closeLightbox()">
+        <span class="material-icons close-lightbox">close</span>
+        <div class="lightbox-content" onclick="event.stopPropagation()">
+            <div id="lightboxMediaContainer"></div>
+        </div>
+    </div>
+
+    <div id="sidebarOverlay" class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="user-nav">
+                <div class="avatar-circle" id="myAvatar">Eu</div>
+            </div>
+            <div class="nav-actions">
+                <button class="icon-btn" onclick="toggleTheme()" title="Alternar Tema">
+                    <span class="material-icons" id="themeIcon">light_mode</span>
+                </button>
+                <button class="icon-btn" onclick="openModal()" title="Nova Conversa">
+                    <span class="material-icons">add</span>
+                </button>
+                <button class="icon-btn mobile-only" onclick="toggleSidebar()">
+                    <span class="material-icons">chevron_left</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="search-container">
+            <div class="search-input-wrapper">
+                <span class="material-icons">search</span>
+                <input type="text" id="chatSearchInput" placeholder="Pesquisar conversas...">
+            </div>
+        </div>
+
+        <div class="chat-list" id="chatList">
+        </div>
+    </aside>
+
+    <main class="main-area">
+        <div class="empty-state" id="emptyState">
+            <button class="icon-btn mobile-menu-float" onclick="toggleSidebar()">
+                <span class="material-icons">menu</span>
+            </button>
+            <span class="material-icons"
+                style="font-size: 80px; margin-bottom: 20px; opacity: 0.5;">chat_bubble_outline</span>
+            <h2>WhatsApp Viewer</h2>
+            <p>Selecione uma conversa para começar.</p>
+        </div>
+
+        <div id="chatView" class="hidden chat-view-container">
+            <header class="chat-header">
+                <div class="header-left-group">
+                    <button class="icon-btn mobile-only" onclick="toggleSidebar()" style="margin-right: 10px;">
+                        <span class="material-icons">menu</span>
+                    </button>
+
+                    <div class="header-info">
+                        <div class="avatar-circle" id="chatAvatar" style="margin-right: 10px;">?</div>
+                        <div class="header-text">
+                            <h3 id="chatTitle">Nome</h3>
+                            <p id="chatSubtitle">Detalhes</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="nav-actions">
+                    <button class="icon-btn" onclick="toggleInChatSearch()" title="Pesquisar">
+                        <span class="material-icons">search</span>
+                    </button>
+                </div>
+            </header>
+
+            <div class="in-chat-search" id="inChatSearch">
+                <input type="text" id="msgSearchInput" placeholder="Buscar mensagem...">
+                <span class="search-count" id="searchCount">0/0</span>
+                <button class="icon-btn" onclick="navSearch('up')"><span
+                        class="material-icons">keyboard_arrow_up</span></button>
+                <button class="icon-btn" onclick="navSearch('down')"><span
+                        class="material-icons">keyboard_arrow_down</span></button>
+                <button class="icon-btn" onclick="toggleInChatSearch()"><span
+                        class="material-icons">close</span></button>
+            </div>
+
+            <div class="messages-container" id="messagesContainer">
+            </div>
+        </div>
+    </main>
+
+    <div class="modal-overlay" id="importModal">
+        <div class="modal-box">
+            <h2>Importar Conversa</h2>
+
+            <div class="input-group">
+                <label>Nome da Conversa</label>
+                <input type="text" id="modalChatName" placeholder="Ex: Grupo da Facul">
+            </div>
+
+            <div class="input-group">
+                <label>Seu Nome (Opcional)</label>
+                <input type="text" id="modalOwnerName" placeholder="Ex: Firmo">
+                <small style="color: var(--text-secondary); font-size: 11px;">Para alinhar suas msgs à direita.</small>
+            </div>
+
+            <div class="input-group">
+                <label>Arquivo ZIP</label>
+                <label class="file-drop">
+                    <span class="material-icons" style="font-size: 40px; color: var(--accent);">folder_zip</span>
+                    <p id="fileNameDisplay" style="margin-top: 10px;">Arraste ou clique aqui</p>
+                    <input type="file" id="fileInput" accept=".zip">
+                </label>
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-cancel" onclick="closeModal()">Cancelar</button>
+                <button class="btn btn-confirm" onclick="processImport()">Importar</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
